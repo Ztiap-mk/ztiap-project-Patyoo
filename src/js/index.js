@@ -110,7 +110,7 @@ class Projectile{
 
         var toObjectX = objectX - this.x;
         var toObjectY = objectY - this.y;
-        //this.rotation = Math.atan2(toObjectY, toObjectX);
+        this.rotation = Math.atan2(toObjectY, toObjectX);
     
         // Normalize
         var toObjectLength = Math.sqrt(toObjectX * toObjectX + toObjectY * toObjectY);
@@ -120,18 +120,16 @@ class Projectile{
         // Move towards the player
         this.x += toObjectX * this.speed;
         this.y += toObjectY * this.speed;
-
-
-          this.rotation = Math.atan2(toObjectY, toObjectX);
-          console.log(this.rotation);
+        
+        console.log(this.rotation);
 
         //console.log("Object:"+ objectX + " "+objectY+" Enemy:"+ Math.round(this.x) + " "+Math.round(this.y));
-        if(objectX==Math.round(this.x) && objectY==Math.round(this.y)){return 1;}
+        if(toObjectLength<this.size/2){return 1;}
         else{
             context.save();
-            //context.translate(this.x,this.y);
-             //context.rotate(this.rotation);
-             context.drawImage(this.image, this.x, this.y, this.size, this.size);
+            context.translate(this.x,this.y);
+            context.rotate(this.rotation+(90*Math.PI/180));
+            context.drawImage(this.image,this.size/-2, this.size/-2);
             context.restore();
             return 0;
         }
