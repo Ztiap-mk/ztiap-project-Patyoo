@@ -136,7 +136,6 @@ class Projectile{
             return 0;
         }
        
-
         //context.drawImage(this.image, this.x, this.y, this.size, this.size);
     }
 
