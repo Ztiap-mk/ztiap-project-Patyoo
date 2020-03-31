@@ -1,4 +1,4 @@
-// import { Game } from './game';
+ //import { Enemy } from './Objects/Enemy';
 
 
 // const game = new Game();
@@ -14,6 +14,9 @@ var towers=[];
 var projectiles=[];
 var sizeTile=50;
 var tick=0;
+var main;
+var state=0;
+var read=0;
 
 function render(){
     drawMap();
@@ -32,129 +35,20 @@ function title()
     context.textAlign = "center";
     context.fillText('Tower', 640, 50);
 }
-class Tile
-{
-    constructor(x, y,size,identity)
-    {
-        this.x = x;
-        this.y = y;
-        this.size=size;
-        this.image = new Image;
-        this.image.src="";
-        this.speed = 0.5;
-        this.rotation = 0;
-        this.identity=identity;
-        this.matchAsset();
-    }
-
-    matchAsset(){
-        switch(this.identity){
-            case 0: this.image.src="tileRoad.png"; this.speed=0; break;
-            case 1: this.image.src="tile.png"; this.speed=0; break;
-            case 2: this.image.src="turent1.png"; this.speed=0; break;
-            case 3: this.image.src="projectile1.png"; this.speed=5; break;
-        }
-    }
-    create(){
-            context.drawImage(this.image, this.x, this.y, this.size, this.size);
-    }
-  
-}
-
-class Enemy{
-    constructor(x, y,size,identity)
-    {
-        this.x = x;
-        this.y = y;
-        this.size=size;
-        this.image = new Image;
-        this.image.src="";
-        this.speed = 1;
-        this.identity=identity;
-        this.matchAsset();
-    }
-    matchAsset(){
-        switch(this.identity){
-            case 10: this.image.src="tileRedCircle.png"; this.speed=2; break;
-        }
-    }
-    move(){
-        if((this.x + this.size) >= 1250 || (this.x) < 0 ) this.speed *= -1;
-        this.x += this.speed;
-
-        context.drawImage(this.image, this.x, this.y, this.size, this.size);
-    }
-}
-class Projectile{
-    constructor(x, y,size,identity)
-    {
-        this.x = x;
-        this.y = y;
-        this.size=size;
-        this.image = new Image;
-        this.image.src="";
-        this.speed = 1;
-        this.rotation = 0;
-        this.identity=identity;
-        this.matchAsset();
-    }
-    
-    matchAsset(){
-        switch(this.identity){
-            case 3: this.image.src="projectile1.png"; this.speed=5; break;
-        }
-    }
-    acquireEnemy(objectX,objectY){
-        
-        
-
-        var toObjectX = objectX - this.x;
-        var toObjectY = objectY - this.y;
-        this.rotation = Math.atan2(toObjectY, toObjectX);
-    
-        // Normalize
-        var toObjectLength = Math.sqrt(toObjectX * toObjectX + toObjectY * toObjectY);
-        toObjectX = toObjectX / toObjectLength;
-        toObjectY = toObjectY / toObjectLength;
-    
-        // Move towards the player
-        this.x += toObjectX * this.speed;
-        this.y += toObjectY * this.speed;
-        
-        console.log(this.rotation);
-
-        //console.log("Object:"+ objectX + " "+objectY+" Enemy:"+ Math.round(this.x) + " "+Math.round(this.y));
-        if(toObjectLength<this.size/2){return 1;}
-        else{
-            context.save();
-            context.translate(this.x,this.y);
-            context.rotate(this.rotation+(90*Math.PI/180));
-            context.drawImage(this.image,this.size/-2, this.size/-2);
-            context.restore();
-            return 0;
-        }
-       
-    }
-
-
-
-}
-
 function generateMap(){
-
     var map1=[
-        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,2,0,0,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,2,2,2,2,0,2,0,0,0,2,2,2,2,0,0,0,2,2,2,0,0,0],
+        [0,0,0,0,0,0,0,0,2,0,0,0,2,0,0,2,0,0,0,2,0,2,0,0,0],
+        [0,0,0,0,0,0,0,0,2,2,2,2,2,0,0,2,2,2,2,2,0,2,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2],
     ];
 
 
@@ -167,46 +61,38 @@ function generateMap(){
 }
 
 function drawMap(){
-    context.clearRect(0, 0, 1280, 720);
-    context.rect(0, 0, 1280,720);
+    context.clearRect(0, 0, 1250, 700);
+    context.rect(0, 0, 1250,700);
     context.fillStyle = "black";
     context.fill();
     map.forEach(element => element.create());
 }
 function generateEnemy(){
     
-
     if(tick%100==0){
-        enemies.push(new Enemy(0,100,sizeTile,10));
+        enemies.push(new Enemy(0,100,sizeTile,0));
     }
     enemies.forEach(element => element.move());
 }
 
-
-
 function shoot(){
 
     if(tick%100==0){
-        towers.forEach(element => projectiles.push(new Projectile(element.x,element.y,sizeTile,3)));
+
+        towers.forEach(element => {
+  
+            if(projectiles.length<enemies.length) projectiles.push(new Projectile(element.x,element.y,sizeTile,0));
+        });
     }
     if(enemies.length>0){
-    /*var max = enemies.reduce(function(prev, current) {
-        return (prev.x > current.x) ? prev : current
-    });
-    console.log(max);
-    */
-   var counter=0;
+    var counter=0;
     projectiles.forEach(element => {
-
-        if(element.acquireEnemy(enemies[0].x,enemies[0].y)==1){console.log("Hit");projectiles.splice(counter,1); enemies.splice(0,1);}
-        // else console.log("Nic");
-        // console.log(counter);
+        console.log(element.x+" "+element.y);
+        if(element.acquireEnemy(enemies[counter].x,enemies[counter].y)==1){console.log("Hit");projectiles.splice(counter,1); enemies.splice(0,1);}
         counter++;
     });
 }
 }
-
-
 
 function generateTower(){
     towers.forEach(element => element.create());
@@ -220,23 +106,49 @@ function getMousePos(canvas, evt) {
     };
   }
 
-  canvas.addEventListener('click', function(evt) {
-    var mousePos = getMousePos(canvas, evt);
-    var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
-    console.log(message);  
-    towers.push(new Tile((mousePos.x-(mousePos.x%50)),(mousePos.y-(mousePos.y%50)),sizeTile,2));
-    }, false);
-
-    window.onload = function()
-{   
-    this.generateMap();
-    main();
-}
-
-function main()
-{
+function mainLoop(){
+    if(state==1){
     tick++;
     render();
     update();
-    requestAnimationFrame(main);
+    
+    requestAnimationFrame(mainLoop);
+    }
 }
+
+window.onload = function(){   
+
+    // generateMap();
+    // state=1;
+    // mainLoop();
+
+
+   canvas.hidden=true;
+   renderMenuScreen();
+}
+
+window.addEventListener("keyup",function name(e){
+
+    if(e.keyCode==80 && state!=0){
+        canvas.hidden=true;
+        state=0;
+        renderPauseScreen();
+    }
+    if(e.keyCode==27){
+        canvas.hidden=true;
+        state=0;
+        renderEndScreen();
+    }
+
+})
+   
+
+
+canvas.addEventListener('click', function(evt) {
+    var mousePos = getMousePos(canvas, evt);
+    var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
+    console.log(message);  
+    towers.push(new Turent((mousePos.x-(mousePos.x%50)),(mousePos.y-(mousePos.y%50)),sizeTile,0));
+    }, false);
+
+
