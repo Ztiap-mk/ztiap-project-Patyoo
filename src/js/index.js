@@ -7,7 +7,6 @@
 
 var canvas = document.getElementById('canvas');
 var context = canvas.getContext('2d');
-var background2;
 var map=[];
 var enemies=[];
 var towers=[];
@@ -17,6 +16,10 @@ var tick=0;
 var main;
 var state=0;
 var read=0;
+var health=20;
+var money=100;
+var wave=0;
+var choiceTower=0;
 
 function render(){
     drawMap();
@@ -33,7 +36,9 @@ function title()
     context.fillStyle = "red";
     context.font = "40px Comic Sans MS";
     context.textAlign = "center";
-    context.fillText('Tower', 640, 50);
+    context.fillText('Health: '+health, 200, 50);
+    context.fillText('Wave: '+wave+"/"+wave, 600, 50);
+    context.fillText('Money: '+money, 1000, 50);
 }
 function generateMap(){
     var map1=[
@@ -81,7 +86,7 @@ function shoot(){
 
         towers.forEach(element => {
   
-            if(projectiles.length<enemies.length) projectiles.push(new Projectile(element.x,element.y,sizeTile,0));
+            if(projectiles.length<enemies.length) projectiles.push(new Projectile(element.x,element.y,sizeTile,element.identity));
         });
     }
     if(enemies.length>0){
@@ -123,8 +128,11 @@ window.onload = function(){
     // mainLoop();
 
 
-   canvas.hidden=true;
-   renderMenuScreen();
+    
+    canvas.hidden=true;
+    renderMenuScreen();
+
+    
 }
 
 window.addEventListener("keyup",function name(e){
@@ -134,10 +142,19 @@ window.addEventListener("keyup",function name(e){
         state=0;
         renderPauseScreen();
     }
-    if(e.keyCode==27){
+    if(e.keyCode==27 && state==1){
         canvas.hidden=true;
         state=0;
         renderEndScreen();
+    }
+    if(e.keyCode==49 && state==1){
+        choiceTower=0;
+    }
+    if(e.keyCode==50 && state==1){
+        choiceTower=1;
+    }
+    if(e.keyCode==51 && state==1){
+        choiceTower=2;
     }
 
 })
@@ -148,7 +165,7 @@ canvas.addEventListener('click', function(evt) {
     var mousePos = getMousePos(canvas, evt);
     var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
     console.log(message);  
-    towers.push(new Turent((mousePos.x-(mousePos.x%50)),(mousePos.y-(mousePos.y%50)),sizeTile,0));
+    towers.push(new Turent((mousePos.x-(mousePos.x%50)),(mousePos.y-(mousePos.y%50)),sizeTile,choiceTower));
     }, false);
 
 

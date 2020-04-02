@@ -18,7 +18,8 @@ function renderMenuScreen(){
     optionsDiv.className="clickDiv";
     optionsDiv.textContent="Options";
     optionsDiv.addEventListener("click",function(){
-        alert("OPTION");
+     main.remove();
+    renderOptionScreen();
     });
 
     var quitDiv=document.createElement("div");

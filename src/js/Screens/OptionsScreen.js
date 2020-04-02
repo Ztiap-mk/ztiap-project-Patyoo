@@ -1,0 +1,155 @@
+function renderOptionScreen(){
+
+    main = document.createElement("div");
+    main.className="flex-container";
+
+        var playerStatsDiv=document.createElement("div");
+        playerStatsDiv.className="playerStatsDiv";
+
+            var EnemyDiv=document.createElement("div");
+            EnemyDiv.className="infoDiv";
+                var EnemyLabel = document.createElement("p");
+                EnemyLabel.className="textP";
+                EnemyLabel.textContent="Enemies killed:";
+                var enemyValue = document.createElement("p");
+                enemyValue.className="textP";
+                enemyValue.textContent="X";
+                EnemyDiv.appendChild(EnemyLabel);
+                EnemyDiv.appendChild(enemyValue);
+
+
+            var WaveDiv=document.createElement("div");
+            WaveDiv.className="infoDiv";
+                var WaveLabel = document.createElement("p");
+                WaveLabel.className="textP";
+                WaveLabel.textContent="Wave played:";
+                var WaveValue = document.createElement("p");
+                WaveValue.className="textP";
+                WaveValue.textContent="X";
+            WaveDiv.appendChild(WaveLabel);
+            WaveDiv.appendChild(WaveValue);
+
+            var MoneyDiv=document.createElement("div");
+            MoneyDiv.className="infoDiv";
+                var MoneyLabel = document.createElement("p");
+                MoneyLabel.className="textP";
+                MoneyLabel.textContent="Money gained:";
+                var MoneyValue = document.createElement("p");
+                MoneyValue.className="textP";
+                MoneyValue.textContent="X";
+            MoneyDiv.appendChild(MoneyLabel);
+            MoneyDiv.appendChild(MoneyValue);
+
+        playerStatsDiv.appendChild(EnemyDiv);
+        playerStatsDiv.appendChild(WaveDiv);
+        playerStatsDiv.appendChild(MoneyDiv);
+
+        //
+        var playerStatsDiv1=document.createElement("div");
+        playerStatsDiv1.className="playerStatsDiv";
+
+            var TowerDiv=document.createElement("div");
+            TowerDiv.className="infoDiv";
+                var TowerLabel = document.createElement("p");
+                TowerLabel.className="textP";
+                TowerLabel.textContent="Towers built:";
+                var TowerValue = document.createElement("p");
+                TowerValue.className="textP";
+                TowerValue.textContent="X";
+                TowerDiv.appendChild(TowerLabel);
+                TowerDiv.appendChild(TowerValue);
+
+
+            var Gamesdiv=document.createElement("div");
+            Gamesdiv.className="infoDiv";
+                var GameLabel = document.createElement("p");
+                GameLabel.className="textP";
+                GameLabel.textContent="Games started:";
+                var GameValue = document.createElement("p");
+                GameValue.className="textP";
+                GameValue.textContent="X";
+                Gamesdiv.appendChild(GameLabel);
+                Gamesdiv.appendChild(GameValue);
+
+            var ScoreDiv=document.createElement("div");
+            ScoreDiv.className="infoDiv";
+                var ScoreLabel = document.createElement("p");
+                ScoreLabel.className="textP";
+                ScoreLabel.textContent="Absolute score:";
+                var ScoreValue = document.createElement("p");
+                ScoreValue.className="textP";
+                ScoreValue.textContent="X";
+                ScoreDiv.appendChild(ScoreLabel);
+                ScoreDiv.appendChild(ScoreValue);
+
+        playerStatsDiv1.appendChild(TowerDiv);
+        playerStatsDiv1.appendChild(Gamesdiv);
+        playerStatsDiv1.appendChild(ScoreDiv);
+        //
+
+            
+        
+        
+
+        var SettingsDiv=document.createElement("div");
+        SettingsDiv.className="towerInfoDiv";
+
+            var TowersLabel = document.createElement("p");
+            TowersLabel.className="textPColumn";
+            TowersLabel.textContent="Settings";
+
+            var AudioDiv=document.createElement("div");
+            AudioDiv.className="infoDivColumn";
+                var button1 = document.createElement("BUTTON");
+                button1.className="buttonStyle";
+                button1.innerHTML="Toggle"
+                var AudioLabel = document.createElement("p");
+                AudioLabel.className="textPColumn";
+                AudioLabel.textContent="Audio";
+            
+                AudioDiv.appendChild(AudioLabel);
+                AudioDiv.appendChild(button1);
+
+                var SoundDiv=document.createElement("div");
+                SoundDiv.className="infoDivColumn";
+                    var button1 = document.createElement("BUTTON");
+                    button1.className="buttonStyle";
+                    button1.innerHTML="Toggle"
+                    var SoundLabel = document.createElement("p");
+                    SoundLabel.className="textPColumn";
+                    SoundLabel.textContent="Sounds";
+                
+                    SoundDiv.appendChild(SoundLabel);
+                    SoundDiv.appendChild(button1);
+
+           
+
+           
+
+                    SettingsDiv.appendChild(TowersLabel); 
+                    SettingsDiv.appendChild(AudioDiv);
+                    SettingsDiv.appendChild(SoundDiv);
+
+
+                    var menuDiv=document.createElement("div");
+                    menuDiv.className="clickDiv";
+                    menuDiv.textContent="Menu";
+                    menuDiv.addEventListener("click",function(){
+                        main.remove();
+                        renderMenuScreen();
+                      
+                    });
+
+                    var Statisticsabel = document.createElement("p");
+                    Statisticsabel.className="textP";
+                    Statisticsabel.textContent="Statistics";
+   
+    main.appendChild(SettingsDiv);
+    main.appendChild(Statisticsabel);
+    main.appendChild(playerStatsDiv);
+    main.appendChild(playerStatsDiv1);
+    main.appendChild(menuDiv);
+    document.body.appendChild(main);
+
+   
+    }
