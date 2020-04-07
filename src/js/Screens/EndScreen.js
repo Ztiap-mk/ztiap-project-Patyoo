@@ -11,6 +11,7 @@ function renderEndScreen(){
     RestartDiv.textContent="Restart";
     RestartDiv.addEventListener("click",function(){
         main.remove();
+        if(soundsOn) menuSelectSound.play();
         enemies=[];
         towers=[];
         projectiles=[];
@@ -27,6 +28,7 @@ function renderEndScreen(){
     menuDiv.textContent="Menu";
     menuDiv.addEventListener("click",function(){
         main.remove();
+        if(soundsOn) menuSelectSound.play();
         enemies=[];
         towers=[];
         projectiles=[];

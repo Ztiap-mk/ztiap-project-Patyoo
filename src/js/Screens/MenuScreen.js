@@ -19,6 +19,7 @@ function renderMenuScreen(){
     optionsDiv.textContent="Options";
     optionsDiv.addEventListener("click",function(){
      main.remove();
+     if(soundsOn) menuSelectSound.play();
     renderOptionScreen();
     });
 
@@ -26,6 +27,7 @@ function renderMenuScreen(){
     quitDiv.className="clickDiv";
     quitDiv.textContent="Quit";
     quitDiv.addEventListener("click",function(){    
+        if(soundsOn) menuSelectSound.play();
         window.close(); 
     });
 
@@ -37,12 +39,11 @@ function renderMenuScreen(){
 
     startDiv.addEventListener("click",function(){
         main.remove();
+        if(soundsOn) menuSelectSound.play();
         if(read==0) renderInstructionScreen();
         else{
-            canvas.hidden=false;
-            state=1;
-            generateMap();
-            mainLoop();
+            read=1;
+           renderMapScreen();
         }
     });
 }

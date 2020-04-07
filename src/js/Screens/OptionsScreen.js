@@ -3,6 +3,55 @@ function renderOptionScreen(){
     main = document.createElement("div");
     main.className="flex-container";
 
+    var Statisticsabel = document.createElement("p");
+    Statisticsabel.className="textP";
+    Statisticsabel.textContent="Statistics";
+
+    var SettingsDiv=document.createElement("div");
+        SettingsDiv.className="towerInfoDiv";
+
+            var TowersLabel = document.createElement("p");
+            TowersLabel.className="textPColumn";
+            TowersLabel.textContent="Settings";
+
+            var AudioDiv=document.createElement("div");
+            AudioDiv.className="infoDivColumn";
+                var button1 = document.createElement("BUTTON");
+                button1.className="buttonStyle";
+                button1.innerHTML= musicOn ? "OFF" : "ON";
+                button1.addEventListener("click",function(){
+                    musicOn=!musicOn;
+                    button1.innerHTML= musicOn ? "OFF" : "ON";
+                    if(soundsOn) menuSelectSound.play();
+                });
+                var AudioLabel = document.createElement("p");
+                AudioLabel.className="textPColumn";
+                AudioLabel.textContent="Audio";
+            
+                AudioDiv.appendChild(AudioLabel);
+                AudioDiv.appendChild(button1);
+
+                var SoundDiv=document.createElement("div");
+                SoundDiv.className="infoDivColumn";
+                    var button2 = document.createElement("BUTTON");
+                    button2.className="buttonStyle";
+                    button2.innerHTML= soundsOn ? "OFF" : "ON";
+                    button2.addEventListener("click",function(){
+                        soundsOn=!soundsOn;
+                        button2.innerHTML= soundsOn ? "OFF" : "ON";
+                        if(soundsOn) menuSelectSound.play();
+                    });
+                    var SoundLabel = document.createElement("p");
+                    SoundLabel.className="textPColumn";
+                    SoundLabel.textContent="Sounds";
+                
+                    SoundDiv.appendChild(SoundLabel);
+                    SoundDiv.appendChild(button2);
+
+        SettingsDiv.appendChild(TowersLabel); 
+        SettingsDiv.appendChild(AudioDiv);
+        SettingsDiv.appendChild(SoundDiv);
+
         var playerStatsDiv=document.createElement("div");
         playerStatsDiv.className="playerStatsDiv";
 
@@ -16,7 +65,6 @@ function renderOptionScreen(){
                 enemyValue.textContent="X";
                 EnemyDiv.appendChild(EnemyLabel);
                 EnemyDiv.appendChild(enemyValue);
-
 
             var WaveDiv=document.createElement("div");
             WaveDiv.className="infoDiv";
@@ -44,7 +92,6 @@ function renderOptionScreen(){
         playerStatsDiv.appendChild(WaveDiv);
         playerStatsDiv.appendChild(MoneyDiv);
 
-        //
         var playerStatsDiv1=document.createElement("div");
         playerStatsDiv1.className="playerStatsDiv";
 
@@ -58,7 +105,6 @@ function renderOptionScreen(){
                 TowerValue.textContent="X";
                 TowerDiv.appendChild(TowerLabel);
                 TowerDiv.appendChild(TowerValue);
-
 
             var Gamesdiv=document.createElement("div");
             Gamesdiv.className="infoDiv";
@@ -85,65 +131,16 @@ function renderOptionScreen(){
         playerStatsDiv1.appendChild(TowerDiv);
         playerStatsDiv1.appendChild(Gamesdiv);
         playerStatsDiv1.appendChild(ScoreDiv);
-        //
-
-            
         
-        
-
-        var SettingsDiv=document.createElement("div");
-        SettingsDiv.className="towerInfoDiv";
-
-            var TowersLabel = document.createElement("p");
-            TowersLabel.className="textPColumn";
-            TowersLabel.textContent="Settings";
-
-            var AudioDiv=document.createElement("div");
-            AudioDiv.className="infoDivColumn";
-                var button1 = document.createElement("BUTTON");
-                button1.className="buttonStyle";
-                button1.innerHTML="Toggle"
-                var AudioLabel = document.createElement("p");
-                AudioLabel.className="textPColumn";
-                AudioLabel.textContent="Audio";
-            
-                AudioDiv.appendChild(AudioLabel);
-                AudioDiv.appendChild(button1);
-
-                var SoundDiv=document.createElement("div");
-                SoundDiv.className="infoDivColumn";
-                    var button1 = document.createElement("BUTTON");
-                    button1.className="buttonStyle";
-                    button1.innerHTML="Toggle"
-                    var SoundLabel = document.createElement("p");
-                    SoundLabel.className="textPColumn";
-                    SoundLabel.textContent="Sounds";
-                
-                    SoundDiv.appendChild(SoundLabel);
-                    SoundDiv.appendChild(button1);
-
-           
-
-           
-
-                    SettingsDiv.appendChild(TowersLabel); 
-                    SettingsDiv.appendChild(AudioDiv);
-                    SettingsDiv.appendChild(SoundDiv);
-
-
-                    var menuDiv=document.createElement("div");
-                    menuDiv.className="clickDiv";
-                    menuDiv.textContent="Menu";
-                    menuDiv.addEventListener("click",function(){
-                        main.remove();
-                        renderMenuScreen();
-                      
+        var menuDiv=document.createElement("div");
+        menuDiv.className="clickDiv";
+        menuDiv.textContent="Menu";
+        menuDiv.addEventListener("click",function(){
+                main.remove();
+                if(soundsOn) menuSelectSound.play();
+                renderMenuScreen(); 
                     });
 
-                    var Statisticsabel = document.createElement("p");
-                    Statisticsabel.className="textP";
-                    Statisticsabel.textContent="Statistics";
-   
     main.appendChild(SettingsDiv);
     main.appendChild(Statisticsabel);
     main.appendChild(playerStatsDiv);
@@ -151,5 +148,4 @@ function renderOptionScreen(){
     main.appendChild(menuDiv);
     document.body.appendChild(main);
 
-   
     }

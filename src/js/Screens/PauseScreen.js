@@ -13,6 +13,7 @@ function renderPauseScreen(){
         main.remove();
         canvas.hidden=false;
         state=1;
+        if(soundsOn) menuSelectSound.play();
         mainLoop();
     });
 
@@ -26,6 +27,8 @@ function renderPauseScreen(){
         projectiles=[];
         tick=0;
         renderMenuScreen();
+        if(soundsOn) menuSelectSound.play();
+        backgroundMusic.stop();
     });
 
     main.appendChild(textDiv);
@@ -33,5 +36,4 @@ function renderPauseScreen(){
     main.appendChild(menuDiv);
 
     document.body.appendChild(main);
-    
     }

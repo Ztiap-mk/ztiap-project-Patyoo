@@ -20,6 +20,10 @@ var health=20;
 var money=100;
 var wave=0;
 var choiceTower=0;
+var mapChoice=0;
+var diffucultyChoice=0;
+var musicOn=1;
+var soundsOn=1;
 
 function render(){
     drawMap();
@@ -86,14 +90,21 @@ function shoot(){
 
         towers.forEach(element => {
   
-            if(projectiles.length<enemies.length) projectiles.push(new Projectile(element.x,element.y,sizeTile,element.identity));
+            if(projectiles.length<enemies.length){
+                projectiles.push(new Projectile(element.x,element.y,sizeTile,element.identity));
+                if(soundsOn) towerShotSound.play();
+            }
         });
     }
     if(enemies.length>0){
     var counter=0;
     projectiles.forEach(element => {
         console.log(element.x+" "+element.y);
-        if(element.acquireEnemy(enemies[counter].x,enemies[counter].y)==1){console.log("Hit");projectiles.splice(counter,1); enemies.splice(0,1);}
+        if(element.acquireEnemy(enemies[counter].x,enemies[counter].y)==1){
+            console.log("Hit");
+            if(soundsOn) enemyDeadSound.play();
+            projectiles.splice(counter,1); enemies.splice(0,1);
+        }
         counter++;
     });
 }
@@ -110,29 +121,32 @@ function getMousePos(canvas, evt) {
       y: evt.clientY - rect.top
     };
   }
-
 function mainLoop(){
     if(state==1){
     tick++;
     render();
     update();
-    
     requestAnimationFrame(mainLoop);
     }
 }
 
 window.onload = function(){   
 
-    // generateMap();
-    // state=1;
-    // mainLoop();
-
+   
+   
 
     
-    canvas.hidden=true;
-    renderMenuScreen();
+     canvas.hidden=true;
+     //renderMenuScreen();
+     renderMapScreen();
+     loadMusic();
 
+    //  generateMap();
+    //  state=1;
+    //  mainLoop();
     
+
+
 }
 
 window.addEventListener("keyup",function name(e){
@@ -140,6 +154,7 @@ window.addEventListener("keyup",function name(e){
     if(e.keyCode==80 && state!=0){
         canvas.hidden=true;
         state=0;
+        if(soundsOn)pauseSound.play();
         renderPauseScreen();
     }
     if(e.keyCode==27 && state==1){
