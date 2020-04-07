@@ -102,6 +102,7 @@ function renderMapScreen(){
                     menuSelectSound.play();
                     backgroundMusic.play();
                 }
+               time=Date.now();
                 generateMap();
                 mainLoop();
                     });

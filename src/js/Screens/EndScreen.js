@@ -33,6 +33,7 @@ function renderEndScreen(){
         towers=[];
         projectiles=[];
         tick=0;
+        
         renderMenuScreen();
       
     });

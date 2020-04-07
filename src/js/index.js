@@ -22,18 +22,25 @@ var wave=0;
 var choiceTower=0;
 var mapChoice=0;
 var diffucultyChoice=0;
-var musicOn=1;
+var musicOn=0;
 var soundsOn=1;
+var time;
+var delta;
+var map1;
+var map2;
+var map3;
+var maps=[map1,map2,map3];
+
 
 function render(){
     drawMap();
     title();
 
 }
-function update(){
+function update(delta){
     generateTower();
-    generateEnemy();
-    shoot();
+    generateEnemy(delta);
+    shoot(delta);
 }
 function title()
 {
@@ -45,25 +52,10 @@ function title()
     context.fillText('Money: '+money, 1000, 50);
 }
 function generateMap(){
-    var map1=[
-        [2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,2,0,0,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,2,2,2,2,0,2,0,0,0,2,2,2,2,0,0,0,2,2,2,0,0,0],
-        [0,0,0,0,0,0,0,0,2,0,0,0,2,0,0,2,0,0,0,2,0,2,0,0,0],
-        [0,0,0,0,0,0,0,0,2,2,2,2,2,0,0,2,2,2,2,2,0,2,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2],
-    ];
 
-
-    for(var i=0;i<map1.length;i++){
-        for(var j=0;j<map1[0].length;j++){
-            map.push(new Tile(j*50,100+i*50,sizeTile,map1[i][j]));
+    for(var i=0;i<maps[mapChoice].length;i++){
+        for(var j=0;j<maps[mapChoice][0].length;j++){
+            map.push(new Tile(j*50,100+i*50,sizeTile,maps[mapChoice][i][j]));
         }
     }
 
@@ -81,10 +73,10 @@ function generateEnemy(){
     if(tick%100==0){
         enemies.push(new Enemy(0,100,sizeTile,0));
     }
-    enemies.forEach(element => element.move());
+    enemies.forEach(element => element.move(delta));
 }
 
-function shoot(){
+function shoot(delta){
 
     if(tick%100==0){
 
@@ -99,8 +91,8 @@ function shoot(){
     if(enemies.length>0){
     var counter=0;
     projectiles.forEach(element => {
-        console.log(element.x+" "+element.y);
-        if(element.acquireEnemy(enemies[counter].x,enemies[counter].y)==1){
+       // console.log(element.x+" "+element.y);
+        if(element.acquireEnemy(enemies[counter].x,enemies[counter].y,delta)==1){
             console.log("Hit");
             if(soundsOn) enemyDeadSound.play();
             projectiles.splice(counter,1); enemies.splice(0,1);
@@ -122,12 +114,21 @@ function getMousePos(canvas, evt) {
     };
   }
 function mainLoop(){
+
+
     if(state==1){
+
+    
+        requestAnimationFrame(mainLoop);
+    var now= Date.now();
+    delta=(now-time)/100;
+    time=now;
     tick++;
     render();
-    update();
-    requestAnimationFrame(mainLoop);
+    update(delta);
+   
     }
+
 }
 
 window.onload = function(){   
@@ -180,7 +181,16 @@ canvas.addEventListener('click', function(evt) {
     var mousePos = getMousePos(canvas, evt);
     var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
     console.log(message);  
-    towers.push(new Turent((mousePos.x-(mousePos.x%50)),(mousePos.y-(mousePos.y%50)),sizeTile,choiceTower));
+
+    if(maps[mapChoice][((mousePos.y-(mousePos.y%50))-100)/50][(mousePos.x-(mousePos.x%50))/50] == 0 ){
+        towers.push(new Turent((mousePos.x-(mousePos.x%50)),(mousePos.y-(mousePos.y%50)),sizeTile,choiceTower));
+        maps[mapChoice][((mousePos.y-(mousePos.y%50))-100)/50][(mousePos.x-(mousePos.x%50))/50]=choiceTower+5;
+        console.log("Stavitel")
+        
+    }
+
+    console.log( ((mousePos.x-(mousePos.x%50))/50 ), ((mousePos.y-(mousePos.y%50))-100)/50 );
+    console.log(maps[mapChoice][((mousePos.y-(mousePos.y%50))-100)/50][(mousePos.x-(mousePos.x%50))/50]);
     }, false);
 
 

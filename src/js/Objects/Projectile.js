@@ -14,12 +14,12 @@ class Projectile{
     
     matchAsset(){
         switch(this.identity){
-            case 0: this.image.src="./Assets/Projectile/projectile1.png"; this.speed=5; break;
-            case 1: this.image.src="./Assets/Projectile/projectile2.png"; this.speed=10; break;
-            case 2: this.image.src="./Assets/Projectile/projectile3.png"; this.speed=20; break;
+            case 0: this.image.src="./Assets/Projectile/projectile1.png"; this.speed=15; break;
+            case 1: this.image.src="./Assets/Projectile/projectile2.png"; this.speed=30; break;
+            case 2: this.image.src="./Assets/Projectile/projectile3.png"; this.speed=45; break;
         }
     }
-    acquireEnemy(objectX,objectY){
+    acquireEnemy(objectX,objectY,delta){
         
         var toObjectX = objectX - this.x;
         var toObjectY = objectY - this.y;
@@ -31,8 +31,8 @@ class Projectile{
         toObjectY = toObjectY / toObjectLength;
     
         // Move towards the player
-        this.x += toObjectX * this.speed;
-        this.y += toObjectY * this.speed;
+        this.x += (toObjectX * this.speed*delta);
+        this.y += (toObjectY * this.speed*delta);
     
 
         if(toObjectLength<this.size/2){return 1;}
